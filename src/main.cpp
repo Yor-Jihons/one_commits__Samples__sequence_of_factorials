@@ -45,9 +45,54 @@ namespace Util{
     }
 }
 
+namespace Original{
+    class Factorial{
+        public:
+            Factorial( int size = 7 ) : nums_(Factorial::CreateVec(size)){}
+
+            int At( int index ){
+                if( index < 0 || index > static_cast<int>(nums_.size()) ) throw std::out_of_range("Thrown FormatException!");
+            return nums_[index];
+            }
+        protected:
+            static std::vector<int> CreateVec( int n ){
+                std::vector<int> nums( n );
+                nums[0] = 1;
+                for( int i = 1; i < n; i++ ){
+                    nums[i] = nums[i - 1] * i;
+                }
+            return nums;
+            }
+        private:
+            std::vector<int> nums_;
+    };
+}
+
 
 
 int main( int argc, char** argv ){
-    
+    int n;
+    {
+        std::string str1;
+        std::getline( cin, str1 );
+        n = std::atoi( str1.c_str() );
+    }
+
+    std::vector<int> nums( n );
+    {
+        std::string str2;
+        std::getline( cin, str2 );
+        Util::StrVec sv = Util::split( str2 );
+        for( int i = 0; i < n; i++ ){
+            nums[i] = std::atoi( sv[i].c_str() );
+        }
+    }
+
+    Original::Factorial fact;
+    for( int i = 0; i < n; i++ ){
+        cout << fact.At( nums[i] ) << flush;
+        if( i != (n - 1) ) cout << " " << flush;
+    }
+    cout << endl;
 return 0;
 }
